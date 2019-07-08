@@ -5,10 +5,11 @@
 
 ![text2](https://user-images.githubusercontent.com/36040531/60665913-c1981100-9e33-11e9-9ef9-c3a2355d3527.gif)
 
+2D virtual environment programmed using Pygame. Player's main objective is to destroy enemy bots without coming into contact
+with enemy projectiles. The main purpose for the creation of this script was to help further enrich my studies in python and video game design.
 
+<h1>Libraries Ussed</h1>
+*Pygame*
 
-# Sources
-
-
-# Developer:
+<h1>Developer:</h1>
 Christopher s Coram

@@ -9,7 +9,7 @@
 with enemy projectiles. The main purpose for the creation of this script was to help further enrich my studies in python and video game design.
 
 <h1>Libraries Ussed</h1>
-*Pygame*
+* Pygame *
 
 <h1>Developer:</h1>
 Christopher s Coram

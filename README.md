@@ -9,7 +9,19 @@
 with enemy projectiles. The main purpose for the creation of this script was to help further enrich my studies in python and video game design.
 
 <h1>Libraries Ussed</h1>
-* Pygame *
+
+* Pygame 
+
+<h1>Modules Used</h1>
+
+* Pygame
+* EnemyShipLayer2
+* EnemyShipLayer3
+* Animations
+* Layer1SoundEffectsProjectiles
+* Layer2SoundEffectsProjectiles
+* Layer3SoundEffectsProjectiles
+* MainMenu
 
 <h1>Developer:</h1>
 Christopher s Coram

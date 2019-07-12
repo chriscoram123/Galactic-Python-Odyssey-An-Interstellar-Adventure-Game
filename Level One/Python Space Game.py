@@ -3,10 +3,17 @@
 Python Space Game / Level One
 6-30-2019 7:15PM
 """
+
+#########################
 # ------- IMPORTS -------
+#########################
 import pygame, sys
 import pygame
+import pygame.mixer
 import os
+import time
+from pygame import mixer
+from time import sleep
 # ------- CLASS IMPORTS -------
 from pygame.locals import *
 from EnemyShipsLayer2 import *
@@ -14,19 +21,39 @@ from EnemyShipLayer3 import *
 from Animations import *
 # ------- CLASS IMPORTS / SCREENS -------
 from MainMenu import *
+# ------- CLASs IMPORTS SOUND / SCREENS -------
+from Layer1SoundEffectsProjectiles import *
+from Layer2SoundEffectsProjectiles import *
+from Layer3SoundEffectsProjectiles import *
+# ------ CLASS IMPORTS / PROJECTILES -------
+from Projectiles import *
+##################################################
 
+#########################
+# ------- VARIABLES -------
+#########################
+pygame.mixer.pre_init(44100,14,2,4096)
 pygame.init()
+
 # Open window
 size = [800, 600]
 screen = pygame.display.set_mode(size)
+display_width = 800
+display_height = 600
+gameDisplay = pygame.display.set_mode((display_width, display_height))
 
-# Model classes
+# Ship model classes
 EnemyL2 = LayerTwo()
 EnemyL3 = LayerThree()
+# Animation classes
 ExplosionAnimation = layerEffects()
 # Screen classes
 MainM = mainLoop()
-
+# Enemy sound effects classes
+L1Sound = layerBotEffects()
+L2Sound = layerTwoBotEffects()
+L3Sound = layerThreeBotEffects()
+# Projectile classes
 
 # Manages how fast the screen updates
 clock = pygame.time.Clock()
@@ -77,8 +104,20 @@ background_alienShipNine = pygame.transform.scale(background_alienShipNine, (80,
 background_alienShipTen = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
 background_alienShipTen = pygame.transform.scale(background_alienShipTen, (80, 80))
 
+# Text colors
+black = (0,0,0)
+white = (255,255,255)
+red = (255,0,0)
+##################################################
 
+#########################
+# ------- CLASSES -------
+#########################
+# Enemy ships class
 class imagesEnemyShips():
+    def __init__(self):
+        print("Enemy layer load")
+        
     def sectionOne(self):
         # Group 1
         # Spaceship one
@@ -104,34 +143,95 @@ class imagesEnemyShips():
         # Spaceship five
         screen.blit(background_alienShipTen, (720,0)) # updates screen with enemy ship
 """ Class Variable """
-# Stores images class into object_x variable
+# Stores images class object_x variable
 object_x = imagesEnemyShips()
 
-
+# Player class
 class playerObject():
+    def __init__(self):
+        print("Player image load")
+        
     def playerLoad(self):
         screen.blit(player, (lead_x, lead_y, 10, 10)) # updates screen with player object
 """ Class Variable """   
-# Stores images class into object_x variable
+# Stores images class object_x variable
 objectP = playerObject()
 
+
+# Functions create pause button display
+def text_objects(text, font):
+    textSurface = font.render(text, True, white)
+    return textSurface, textSurface.get_rect()
+
+def message_display(text):
+    largeText = pygame.font.Font('Roboto-Black.ttf',115)
+    TextSurf, TextRect = text_objects(text, largeText)
+    TextRect.center = ((display_width/2), (display_height/2))
+    gameDisplay.blit(TextSurf, TextRect)
+    pygame.display.update()
+    time.sleep(2)
+    game_loop()
         
-key = pygame.key.get_pressed()
+def message():
+    message_display("Pause")
+    
+def game_loop():
+    x = (display_width * 0.45)
+    y = (display_height * 0.8)
+
+    pygame.display.update()
+
+
+# Plays main soundtrack
+class main_soundtrack():
+    # Updates console
+    def __init__(self):
+        print("Soundtrack have been loaded")
+
+    # Main video game soundtrack 
+    def soundtrackOne(self):
+        pygame.mixer.music.load("mainSoundtrack.wav")
+        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.play(-1)
+
+    # Player movemnet soundtrack
+    def soundtrackPlayer(self):
+        pygame.mixer.music.load("zapsplat_science_fiction_missile_whoosh_pass_by_hit_001_31840.mp3")
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(0)
+""" Class Variable """   
+# Stores images class object_x variable   
+objectSound = main_soundtrack()
+objectSound.soundtrackOne()
+##################################################
+    
+#####################################
 # -------- MAIN PROGRAM LOOP --------
-while True: #main game loop
+#####################################
+key = pygame.key.get_pressed()
+running = True
+while running: #main game loop
  screen.fill((255, 255, 255))
  for event in pygame.event.get():
     if event.type == QUIT:
         pygame.quit()
         sys.exit()
-##############################
-  # Player Movement
+  # If else player movement
     if event.type == pygame.KEYDOWN: # updates screen with player position
       if event.key == pygame.K_LEFT:
+        objectSound.soundtrackPlayer()
         lead_x -= 10
       if event.key == pygame.K_RIGHT:
+        objectSound.soundtrackPlayer()
         lead_x += 10
+  # If else pause button
+      if event.key == pygame.K_DOWN:
+        message()
+##################################################
 
+#####################################
+# -------- UPDATES --------
+#####################################
  screen.blit(background_image, (0,0)) # updates screen with background
  EnemyL2.EnemyLayer() # updates scrren with second enemy layer
  EnemyL3.EnemyLayer() # updates scrren with third enemy layer

@@ -27,4 +27,3 @@ class layerEffects():
     # Visual effects for explosion
     def explosion(self):
         pygame.blit(imageExplode, posx, posy, 10, 10)
-

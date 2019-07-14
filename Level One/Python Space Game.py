@@ -54,6 +54,8 @@ L1Sound = layerBotEffects()
 L2Sound = layerTwoBotEffects()
 L3Sound = layerThreeBotEffects()
 # Projectile classes
+playerProjectile = Bullet()
+player_bullet_sound = bullet_sound()
 
 # Manages how fast the screen updates
 clock = pygame.time.Clock()
@@ -108,6 +110,11 @@ background_alienShipTen = pygame.transform.scale(background_alienShipTen, (80, 8
 black = (0,0,0)
 white = (255,255,255)
 red = (255,0,0)
+Blue = (0,0,255)
+
+# Projectile variables
+bullets = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
 ##################################################
 
 #########################
@@ -147,12 +154,18 @@ class imagesEnemyShips():
 object_x = imagesEnemyShips()
 
 # Player class
+bullets = pygame.sprite.Group()
 class playerObject():
     def __init__(self):
         print("Player image load")
         
     def playerLoad(self):
         screen.blit(player, (lead_x, lead_y, 10, 10)) # updates screen with player object
+
+    # import class from projectile module
+    def playerShoot(self):
+        playerProjectile.shoot()
+    
 """ Class Variable """   
 # Stores images class object_x variable
 objectP = playerObject()
@@ -191,18 +204,21 @@ class main_soundtrack():
     # Main video game soundtrack 
     def soundtrackOne(self):
         pygame.mixer.music.load("mainSoundtrack.wav")
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.10)
         pygame.mixer.music.play(-1)
-
-    # Player movemnet soundtrack
-    def soundtrackPlayer(self):
-        pygame.mixer.music.load("zapsplat_science_fiction_missile_whoosh_pass_by_hit_001_31840.mp3")
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(0)
 """ Class Variable """   
-# Stores images class object_x variable   
+# Stores images class object_x variable
 objectSound = main_soundtrack()
 objectSound.soundtrackOne()
+
+# Player movemnet soundtrack
+movePSound = pygame.mixer.Sound("playerSound.wav")
+pygame.mixer.music.set_volume(0.50)
+pygame.mixer.music.play(0)
+# Player bullet soundtrack
+player_bullet_sound = pygame.mixer.Sound("PlayerBulletSound.wav")
+pygame.mixer.music.set_volume(0.10)
+pygame.mixer.music.play(0)
 ##################################################
     
 #####################################
@@ -219,11 +235,18 @@ while running: #main game loop
   # If else player movement
     if event.type == pygame.KEYDOWN: # updates screen with player position
       if event.key == pygame.K_LEFT:
-        objectSound.soundtrackPlayer()
+        pygame.mixer.Sound.play(movePSound)
         lead_x -= 10
       if event.key == pygame.K_RIGHT:
-        objectSound.soundtrackPlayer()
+        pygame.mixer.Sound.play(movePSound)
         lead_x += 10
+  # elif statement for player projectiles
+      elif event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_SPACE:
+              pygame.mixer.Sound.play(player_bullet_sound)
+              objectP.playerShoot()
+
+          
   # If else pause button
       if event.key == pygame.K_DOWN:
         message()
@@ -232,6 +255,7 @@ while running: #main game loop
 #####################################
 # -------- UPDATES --------
 #####################################
+ all_sprites.draw(screen)
  screen.blit(background_image, (0,0)) # updates screen with background
  EnemyL2.EnemyLayer() # updates scrren with second enemy layer
  EnemyL3.EnemyLayer() # updates scrren with third enemy layer

@@ -29,6 +29,8 @@ from Layer3SoundEffectsProjectiles import *
 from Projectiles import *
 ##################################################
 
+
+
 #########################
 # ------- VARIABLES -------
 #########################
@@ -55,7 +57,7 @@ L2Sound = layerTwoBotEffects()
 L3Sound = layerThreeBotEffects()
 # Projectile classes
 playerProjectile = Bullet()
-player_bullet_sound = bullet_sound()
+
 
 # Manages how fast the screen updates
 clock = pygame.time.Clock()
@@ -106,6 +108,14 @@ background_alienShipNine = pygame.transform.scale(background_alienShipNine, (80,
 background_alienShipTen = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
 background_alienShipTen = pygame.transform.scale(background_alienShipTen, (80, 80))
 
+
+# Alien ship list....
+alien_ship_obj = [background_alienShip, background_alienShipTwo, background_alienShipThree, background_alienShipFour,
+                  background_alienShipFive, background_alienShipSix, background_alienShipSeven, background_alienShipEight,
+                  background_alienShipNine]
+#....
+
+
 # Text colors
 black = (0,0,0)
 white = (255,255,255)
@@ -117,9 +127,14 @@ bullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 ##################################################
 
+
+
 #########################
 # ------- CLASSES -------
 #########################
+""" Layer 1 Enemy Ships: Set of code displays a row of image imported
+enemy ships at the top of the display.
+"""
 # Enemy ships class
 class imagesEnemyShips():
     def __init__(self):
@@ -152,25 +167,60 @@ class imagesEnemyShips():
 """ Class Variable """
 # Stores images class object_x variable
 object_x = imagesEnemyShips()
+""" ....... """
 
-# Player class
+
+""" Player Projectile: Set of code that draws player projectile as well as
+identifying it's x and y coordinates. 
+"""
+# Player class variables / functions....
 bullets = pygame.sprite.Group()
+screen.fill(white)
+x_cord = 380 # x coordinates for bullet obj position
+y_cord = 500 # y coordinates for bullet obj position
+# Draw function for bullet obj
+def drawn_load():
+   pygame.draw.rect(screen, Blue, (x_cord, y_cord, 20, 10)) # updates screen with drawn object
+""" ....... """
+
+   
+
+""" Collision System: Set of code that identifies two objects. If those two objects should
+come in contact with one another, than both objects will kill(). But bullet object will respawn
+after x amount of seconds.
+"""
+alien_sprite = alien_ship_obj[0]
+bullet = drawn_load()
+# Collision function
+def collide(self, sprite):
+    pygame.sprite.collide_rect()
+   # collide_rect(alien_sprite, bullet) == bool
+#....
+# Player class
 class playerObject():
     def __init__(self):
         print("Player image load")
-        
+
     def playerLoad(self):
-        screen.blit(player, (lead_x, lead_y, 10, 10)) # updates screen with player object
+        screen.blit(player, (lead_x, lead_y, 5, 5)) # updates screen with player object
+        drawn_load()
 
     # import class from projectile module
     def playerShoot(self):
-        playerProjectile.shoot()
-    
+        if bullet.is_collided_with(alien_sprite):
+            print("Collision")
+            bullet.kill()
+            alien_sprite.kill()
 """ Class Variable """   
 # Stores images class object_x variable
 objectP = playerObject()
+""" ...... """
 
 
+
+""" Pause Button: Set of code that craete a pause menu when
+player keydowns Z.
+"""
 # Functions create pause button display
 def text_objects(text, font):
     textSurface = font.render(text, True, white)
@@ -193,8 +243,13 @@ def game_loop():
     y = (display_height * 0.8)
 
     pygame.display.update()
+""" ....... """
 
 
+
+""" Soundtrack: Set of code creates functions for background music and sound
+effects when player starts game and carries out certain actions.
+"""
 # Plays main soundtrack
 class main_soundtrack():
     # Updates console
@@ -210,17 +265,24 @@ class main_soundtrack():
 # Stores images class object_x variable
 objectSound = main_soundtrack()
 objectSound.soundtrackOne()
+""" ....... """
 
-# Player movemnet soundtrack
+
+# Player movemnet soundtrack...
 movePSound = pygame.mixer.Sound("playerSound.wav")
 pygame.mixer.music.set_volume(0.50)
 pygame.mixer.music.play(0)
-# Player bullet soundtrack
+#...
+
+# Player bullet soundtrack...
 player_bullet_sound = pygame.mixer.Sound("PlayerBulletSound.wav")
 pygame.mixer.music.set_volume(0.10)
 pygame.mixer.music.play(0)
+#...
 ##################################################
-    
+
+
+
 #####################################
 # -------- MAIN PROGRAM LOOP --------
 #####################################
@@ -232,19 +294,25 @@ while running: #main game loop
     if event.type == QUIT:
         pygame.quit()
         sys.exit()
-  # If else player movement
+  # If / else player movement
     if event.type == pygame.KEYDOWN: # updates screen with player position
       if event.key == pygame.K_LEFT:
         pygame.mixer.Sound.play(movePSound)
         lead_x -= 10
+        x_cord -= 10
+        
       if event.key == pygame.K_RIGHT:
         pygame.mixer.Sound.play(movePSound)
         lead_x += 10
+        x_cord += 10
+        
   # elif statement for player projectiles
       elif event.type == pygame.KEYDOWN:
           if event.key == pygame.K_SPACE:
               pygame.mixer.Sound.play(player_bullet_sound)
-              objectP.playerShoot()
+              y_cord -= 60
+          if event.key == pygame.K_DOWN:
+              y_cord += 60
 
           
   # If else pause button

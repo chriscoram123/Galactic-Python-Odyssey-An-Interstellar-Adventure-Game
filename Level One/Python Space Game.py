@@ -18,13 +18,6 @@ from time import sleep
 from pygame.locals import *
 from EnemyShipsLayer2 import *
 from EnemyShipLayer3 import *
-from Animations import *
-# ------- CLASS IMPORTS / SCREENS -------
-from MainMenu import *
-# ------- CLASs IMPORTS SOUND / SCREENS -------
-from Layer1SoundEffectsProjectiles import *
-from Layer2SoundEffectsProjectiles import *
-from Layer3SoundEffectsProjectiles import *
 # ------ CLASS IMPORTS / PROJECTILES -------
 from Projectiles import *
 ##################################################
@@ -47,14 +40,6 @@ gameDisplay = pygame.display.set_mode((display_width, display_height))
 # Ship model classes
 EnemyL2 = LayerTwo()
 EnemyL3 = LayerThree()
-# Animation classes
-ExplosionAnimation = layerEffects()
-# Screen classes
-MainM = mainLoop()
-# Enemy sound effects classes
-L1Sound = layerBotEffects()
-L2Sound = layerTwoBotEffects()
-L3Sound = layerThreeBotEffects()
 # Projectile classes
 playerProjectile = Bullet()
 
@@ -66,10 +51,10 @@ clock = pygame.time.Clock()
 pygame.display.set_caption('Python Spaceship Game')
 
 # Setup background for video game
-background_image = pygame.image.load("SPoW_82318_01 copy.png").convert()
+background_image = pygame.image.load("SPoW_82318_01.png").convert()
 
 # Setup player image in display
-player = pygame.image.load("856963_spaceship-sprite-png copy.png")
+player = pygame.image.load("856963_spaceship-sprite-png copy 2.png")
 player = pygame.transform.scale(player, (80,80))
 # Player state values
 lead_x = 350
@@ -77,35 +62,35 @@ lead_y = 500
 
 # Setup alien ships
 # Enemy ship one
-background_alienShip = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShip = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShip = pygame.transform.scale(background_alienShip, (80, 80))
 # Enemy ship two
-background_alienShipTwo = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipTwo = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipTwo = pygame.transform.scale(background_alienShipTwo, (80, 80))
 # Enemy ship three
-background_alienShipThree = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipThree = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipThree = pygame.transform.scale(background_alienShipThree, (80, 80))
 # Enemy ship four
-background_alienShipFour = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipFour = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipFour = pygame.transform.scale(background_alienShipFour, (80, 80))
 # Enemy ship five
-background_alienShipFive = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipFive = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipFive = pygame.transform.scale(background_alienShipFive, (80, 80))
 
 # Enemy ship six
-background_alienShipSix = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipSix = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipSix = pygame.transform.scale(background_alienShipSix, (80, 80))
 # Enemy ship seven
-background_alienShipSeven = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipSeven = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipSeven = pygame.transform.scale(background_alienShipSeven, (80, 80))
 # Enemy ship eight
-background_alienShipEight = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipEight = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipEight = pygame.transform.scale(background_alienShipEight, (80, 80))
 # Enemy ship nine
-background_alienShipNine = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipNine = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipNine = pygame.transform.scale(background_alienShipNine, (80, 80))
 # Enemy ship ten
-background_alienShipTen = pygame.image.load("Spaceship-Transparent-PNG copy.png").convert_alpha()
+background_alienShipTen = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipTen = pygame.transform.scale(background_alienShipTen, (80, 80))
 
 
@@ -139,7 +124,7 @@ enemy ships at the top of the display.
 class imagesEnemyShips():
     def __init__(self):
         print("Enemy layer load")
-        
+
     def sectionOne(self):
         # Group 1
         # Spaceship one
@@ -170,20 +155,76 @@ object_x = imagesEnemyShips()
 """ ....... """
 
 
+
 """ Player Projectile: Set of code that draws player projectile as well as
-identifying it's x and y coordinates. 
+identifying it's x and y coordinates.
 """
 # Player class variables / functions....
 bullets = pygame.sprite.Group()
 screen.fill(white)
 x_cord = 380 # x coordinates for bullet obj position
 y_cord = 500 # y coordinates for bullet obj position
+# Layer One....
+# Draw bullets by seprate ships
+""" Layer 1 / Ship 1 Projectile """
+b1_x_cord = 30 # Layer 1 x coordinates
+b1_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 2 Projectile """
+b2_x_cord = 110 # Layer 1 x coordinates
+b2_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 3 Projectile """
+b3_x_cord = 190 # Layer 1 x coordinates
+b3_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 4 Projectile """
+b4_x_cord = 270 # Layer 1 x coordinates
+b4_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 5 Projectile """
+b5_x_cord = 350 # Layer 1 x coordinates
+b5_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 6 Projectile """
+b6_x_cord = 430 # Layer 1 x coordinates
+b6_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 7 Projectile """
+b7_x_cord = 505 # Layer 1 x coordinates
+b7_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 8 Projectile """
+b8_x_cord = 590 # Layer 1 x coordinates
+b8_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 9 Projectile """
+b9_x_cord = 668 # Layer 1 x coordinates
+b9_y_cord = 83 # Layer 1 y coordinates
+
+""" Layer 1 / Ship 10 Projectile """
+b10_x_cord = 750 # Layer 1 x coordinates
+b10_y_cord = 83 # Layer 1 y coordinates
+#....
 # Draw function for bullet obj
 def drawn_load():
    pygame.draw.rect(screen, Blue, (x_cord, y_cord, 20, 10)) # updates screen with drawn object
+   # Enemy Bullets....
+   pygame.draw.rect(screen, red, (b1_x_cord, b1_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b2_x_cord, b2_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b3_x_cord, b3_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b4_x_cord, b4_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b5_x_cord, b5_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b6_x_cord, b6_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b7_x_cord, b7_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b8_x_cord, b8_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b9_x_cord, b9_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, (b10_x_cord, b10_y_cord, 20, 10)) # updates screen with drawn object
+   #....
 """ ....... """
 
-   
+
+
 
 """ Collision System: Set of code that identifies two objects. If those two objects should
 come in contact with one another, than both objects will kill(). But bullet object will respawn
@@ -211,7 +252,7 @@ class playerObject():
             print("Collision")
             bullet.kill()
             alien_sprite.kill()
-""" Class Variable """   
+""" Class Variable """
 # Stores images class object_x variable
 objectP = playerObject()
 """ ...... """
@@ -234,10 +275,10 @@ def message_display(text):
     pygame.display.update()
     time.sleep(2)
     game_loop()
-        
+
 def message():
     message_display("Pause")
-    
+
 def game_loop():
     x = (display_width * 0.45)
     y = (display_height * 0.8)
@@ -247,38 +288,34 @@ def game_loop():
 
 
 
-""" Soundtrack: Set of code creates functions for background music and sound
-effects when player starts game and carries out certain actions.
-"""
-# Plays main soundtrack
-class main_soundtrack():
-    # Updates console
-    def __init__(self):
-        print("Soundtrack have been loaded")
+# Timer countdown functions....
+def timer_one():
+# For range countdown / enemy projectile ejection from position
+    for i in range(10, 0, -1):
+        print(i)
+        time.sleep(1)
+    b1_y_cord += 10
+    b3_y_cord += 10
+    b5_y_cord += 10
+    b7_y_cord += 10
+    b9_y_cord += 10
+# Set of code that instantiates enemy projectiles when in contact with screen
+# border.
 
-    # Main video game soundtrack 
-    def soundtrackOne(self):
-        pygame.mixer.music.load("mainSoundtrack.wav")
-        pygame.mixer.music.set_volume(0.10)
-        pygame.mixer.music.play(-1)
-""" Class Variable """   
-# Stores images class object_x variable
-objectSound = main_soundtrack()
-objectSound.soundtrackOne()
-""" ....... """
+def timer_two():
+# For range countdown / enemy projectile ejection from position
+    for i in range(10, 0, -1):
+        print(i)
+        time.sleep(1)
+    b2_y_cord += 10
+    b4_y_cord += 10
+    b6_y_cord += 10
+    b8_y_cord += 10
+    b10_y_cord += 10
+# Set of code that instantiates enemy projectiles when in contact with screen
+# border.
 
-
-# Player movemnet soundtrack...
-movePSound = pygame.mixer.Sound("playerSound.wav")
-pygame.mixer.music.set_volume(0.50)
-pygame.mixer.music.play(0)
-#...
-
-# Player bullet soundtrack...
-player_bullet_sound = pygame.mixer.Sound("PlayerBulletSound.wav")
-pygame.mixer.music.set_volume(0.10)
-pygame.mixer.music.play(0)
-#...
+#....
 ##################################################
 
 
@@ -297,27 +334,19 @@ while running: #main game loop
   # If / else player movement
     if event.type == pygame.KEYDOWN: # updates screen with player position
       if event.key == pygame.K_LEFT:
-        pygame.mixer.Sound.play(movePSound)
         lead_x -= 10
         x_cord -= 10
-        
+
       if event.key == pygame.K_RIGHT:
-        pygame.mixer.Sound.play(movePSound)
         lead_x += 10
         x_cord += 10
-        
+
   # elif statement for player projectiles
       elif event.type == pygame.KEYDOWN:
           if event.key == pygame.K_SPACE:
-              pygame.mixer.Sound.play(player_bullet_sound)
               y_cord -= 60
           if event.key == pygame.K_DOWN:
               y_cord += 60
-
-          
-  # If else pause button
-      if event.key == pygame.K_DOWN:
-        message()
 ##################################################
 
 #####################################

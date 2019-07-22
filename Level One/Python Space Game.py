@@ -327,9 +327,35 @@ player_bullet_sound = pygame.mixer.Sound("PlayerBulletSound.wav")
 pygame.mixer.music.set_volume(0.10)
 pygame.mixer.music.play(0)
 #...
+
+
+
+# Timer class that comtrol how long an object lasts after a player action.
+# And timer loop for enemy bullets fire, As well as a game over display timer....
+class instantiate_timer():
+
+
+#....
+
+
+
+# Kill class that will kill certain objects that are affected
+# by other objects....
+class kill_objects():
+
+
+#....
+
+
+
+# Winner / gameover class will display winner if player defeats all enemy bots.
+# But if player loses, screen will display the following text "GAME OVER"....
 ##################################################
+class game_over():
 
 
+
+#....
 
 #####################################
 # -------- MAIN PROGRAM LOOP --------
@@ -376,7 +402,7 @@ while running: #main game loop
       enemy_bullet_rect9.centery += 20
 
     # Control so player never leaves screen area
- 
+
 ##################################################
 
 

@@ -14,6 +14,7 @@ import os
 import time
 from pygame import mixer
 from time import sleep
+from time import time
 # ------- CLASS IMPORTS -------
 from pygame.locals import *
 from EnemyShipsLayer2 import *
@@ -29,6 +30,7 @@ from Projectiles import *
 #########################
 pygame.mixer.pre_init(44100,14,2,4096)
 pygame.init()
+FPS = 60
 
 # Open window
 size = [800, 600]
@@ -36,6 +38,7 @@ screen = pygame.display.set_mode(size)
 display_width = 800
 display_height = 600
 gameDisplay = pygame.display.set_mode((display_width, display_height))
+
 
 # Ship model classes
 EnemyL2 = LayerTwo()
@@ -206,20 +209,25 @@ b9_y_cord = 83 # Layer 1 y coordinates
 b10_x_cord = 750 # Layer 1 x coordinates
 b10_y_cord = 83 # Layer 1 y coordinates
 #....
-# Draw function for bullet obj
+# Enemy odd bullet coordinates
+enemy_bullet_rect = pygame.Rect(b1_x_cord,b1_y_cord,20,10)
+enemy_bullet_rect3 = pygame.Rect(b3_x_cord,b3_y_cord,20,10)
+enemy_bullet_rect5 = pygame.Rect(b5_x_cord,b5_y_cord,20,10)
+enemy_bullet_rect7 = pygame.Rect(b7_x_cord,b7_y_cord,20,10)
+enemy_bullet_rect9 = pygame.Rect(b9_x_cord,b9_y_cord,20,10)
 def drawn_load():
-   pygame.draw.rect(screen, Blue, (x_cord, y_cord, 20, 10)) # updates screen with drawn object
    # Enemy Bullets....
-   pygame.draw.rect(screen, red, (b1_x_cord, b1_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect) # updates screen with drawn object
    pygame.draw.rect(screen, red, (b2_x_cord, b2_y_cord, 20, 10)) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b3_x_cord, b3_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect3) # updates screen with drawn object
    pygame.draw.rect(screen, red, (b4_x_cord, b4_y_cord, 20, 10)) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b5_x_cord, b5_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect5) # updates screen with drawn object
    pygame.draw.rect(screen, red, (b6_x_cord, b6_y_cord, 20, 10)) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b7_x_cord, b7_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect7) # updates screen with drawn object
    pygame.draw.rect(screen, red, (b8_x_cord, b8_y_cord, 20, 10)) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b9_x_cord, b9_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect9) # updates screen with drawn object
    pygame.draw.rect(screen, red, (b10_x_cord, b10_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.display.update()
    #....
 """ ....... """
 
@@ -243,8 +251,8 @@ class playerObject():
         print("Player image load")
 
     def playerLoad(self):
+        pygame.draw.rect(screen, Blue, (x_cord, y_cord, 20, 10)) # updates screen with drawn object
         screen.blit(player, (lead_x, lead_y, 5, 5)) # updates screen with player object
-        drawn_load()
 
     # import class from projectile module
     def playerShoot(self):
@@ -288,34 +296,37 @@ def game_loop():
 
 
 
-# Timer countdown functions....
-def timer_one():
-# For range countdown / enemy projectile ejection from position
-    for i in range(10, 0, -1):
-        print(i)
-        time.sleep(1)
-    b1_y_cord += 10
-    b3_y_cord += 10
-    b5_y_cord += 10
-    b7_y_cord += 10
-    b9_y_cord += 10
-# Set of code that instantiates enemy projectiles when in contact with screen
-# border.
+""" Soundtrack: Set of code creates functions for background music and sound
+effects when player starts game and carries out certain actions.
+"""
+# Plays main soundtrack
+class main_soundtrack():
+    # Updates console
+    def __init__(self):
+        print("Soundtrack have been loaded")
 
-def timer_two():
-# For range countdown / enemy projectile ejection from position
-    for i in range(10, 0, -1):
-        print(i)
-        time.sleep(1)
-    b2_y_cord += 10
-    b4_y_cord += 10
-    b6_y_cord += 10
-    b8_y_cord += 10
-    b10_y_cord += 10
-# Set of code that instantiates enemy projectiles when in contact with screen
-# border.
+    # Main video game soundtrack
+    def soundtrackOne(self):
+        pygame.mixer.music.load("mainSoundtrack.wav")
+        pygame.mixer.music.set_volume(0.10)
+        pygame.mixer.music.play(-1)
+""" Class Variable """
+# Stores images class object_x variable
+objectSound = main_soundtrack()
+objectSound.soundtrackOne()
+""" ....... """
 
-#....
+# Player movemnet soundtrack...
+movePSound = pygame.mixer.Sound("playerSound.wav")
+pygame.mixer.music.set_volume(0.50)
+pygame.mixer.music.play(0)
+#...
+
+# Player bullet soundtrack...
+player_bullet_sound = pygame.mixer.Sound("PlayerBulletSound.wav")
+pygame.mixer.music.set_volume(0.10)
+pygame.mixer.music.play(0)
+#...
 ##################################################
 
 
@@ -325,29 +336,51 @@ def timer_two():
 #####################################
 key = pygame.key.get_pressed()
 running = True
+
 while running: #main game loop
  screen.fill((255, 255, 255))
  for event in pygame.event.get():
     if event.type == QUIT:
         pygame.quit()
         sys.exit()
+
   # If / else player movement
     if event.type == pygame.KEYDOWN: # updates screen with player position
       if event.key == pygame.K_LEFT:
-        lead_x -= 10
-        x_cord -= 10
+        lead_x -= 10 # Player object x coordinates
+        x_cord -= 10 # Player bullet y coordinates
 
       if event.key == pygame.K_RIGHT:
-        lead_x += 10
-        x_cord += 10
+        lead_x += 10 # Player object x coordinates
+        x_cord += 10 # Player bullet y coordinates
+
+      if event.key == pygame.K_UP:
+          lead_y -= 7 # Player object x coordinates
+          y_cord -= 7 # Player bullet y coordinates
+
 
   # elif statement for player projectiles
       elif event.type == pygame.KEYDOWN:
           if event.key == pygame.K_SPACE:
+              pygame.mixer.Sound.play(player_bullet_sound)
               y_cord -= 60
           if event.key == pygame.K_DOWN:
-              y_cord += 60
+              lead_y += 10 # Player object x coordinates
+              y_cord += 10 # Player bullet y coordinates
+
+    # Odd enemy bullets change position as player obj changes position
+      enemy_bullet_rect.centery += 20
+      enemy_bullet_rect3.centery += 20
+      enemy_bullet_rect5.centery += 20
+      enemy_bullet_rect7.centery += 20
+      enemy_bullet_rect9.centery += 20
+
+    # Control so player never leaves screen area
+ 
 ##################################################
+
+
+
 
 #####################################
 # -------- UPDATES --------
@@ -358,5 +391,6 @@ while running: #main game loop
  EnemyL3.EnemyLayer() # updates scrren with third enemy layer
  objectP.playerLoad() # updates screen with player img
  object_x.sectionOne()
- pygame.display.flip()
- clock.tick(60)
+ drawn_load()
+ clock.tick(FPS)
+ pygame.display.update()

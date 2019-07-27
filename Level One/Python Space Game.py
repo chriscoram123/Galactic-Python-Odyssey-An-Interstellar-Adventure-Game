@@ -4,10 +4,11 @@ Python Space Game / Level One
 6-30-2019 7:15PM
 """
 
-#########################
-# ------- IMPORTS -------
-#########################
-import pygame, sys
+#######################
+#####-- IMPORTS --#####
+#######################
+
+import pygame, sys, random, math
 import pygame
 import pygame.mixer
 import os
@@ -18,7 +19,6 @@ from time import time
 # ------- CLASS IMPORTS -------
 from pygame.locals import *
 from EnemyShipsLayer2 import *
-from EnemyShipLayer3 import *
 # ------ CLASS IMPORTS / PROJECTILES -------
 from Projectiles import *
 ##################################################
@@ -26,11 +26,12 @@ from Projectiles import *
 
 
 #########################
-# ------- VARIABLES -------
+#####-- VARIABLES --#####
 #########################
+
 pygame.mixer.pre_init(44100,14,2,4096)
 pygame.init()
-FPS = 60
+FPS = 120
 
 # Open window
 size = [800, 600]
@@ -42,7 +43,6 @@ gameDisplay = pygame.display.set_mode((display_width, display_height))
 
 # Ship model classes
 EnemyL2 = LayerTwo()
-EnemyL3 = LayerThree()
 # Projectile classes
 playerProjectile = Bullet()
 
@@ -96,13 +96,11 @@ background_alienShipNine = pygame.transform.scale(background_alienShipNine, (80,
 background_alienShipTen = pygame.image.load("Spaceship-Transparent-PNG copy 2.png").convert_alpha()
 background_alienShipTen = pygame.transform.scale(background_alienShipTen, (80, 80))
 
-
 # Alien ship list....
 alien_ship_obj = [background_alienShip, background_alienShipTwo, background_alienShipThree, background_alienShipFour,
                   background_alienShipFive, background_alienShipSix, background_alienShipSeven, background_alienShipEight,
                   background_alienShipNine]
 #....
-
 
 # Text colors
 black = (0,0,0)
@@ -117,9 +115,10 @@ all_sprites = pygame.sprite.Group()
 
 
 
-#########################
-# ------- CLASSES -------
-#########################
+#######################
+#####-- CLASSES --#####
+#######################
+
 """ Layer 1 Enemy Ships: Set of code displays a row of image imported
 enemy ships at the top of the display.
 """
@@ -215,24 +214,47 @@ enemy_bullet_rect3 = pygame.Rect(b3_x_cord,b3_y_cord,20,10)
 enemy_bullet_rect5 = pygame.Rect(b5_x_cord,b5_y_cord,20,10)
 enemy_bullet_rect7 = pygame.Rect(b7_x_cord,b7_y_cord,20,10)
 enemy_bullet_rect9 = pygame.Rect(b9_x_cord,b9_y_cord,20,10)
+
+# Enemy even bullet coordinates
+enemy_bullet_rect2 = pygame.Rect(b2_x_cord,b2_y_cord,20,10)
+enemy_bullet_rect4 = pygame.Rect(b4_x_cord,b4_y_cord,20,10)
+enemy_bullet_rect6 = pygame.Rect(b6_x_cord,b6_y_cord,20,10)
+enemy_bullet_rect8 = pygame.Rect(b8_x_cord,b8_y_cord,20,10)
+enemy_bullet_rect10 = pygame.Rect(b10_x_cord,b10_y_cord,20,10)
+
 def drawn_load():
    # Enemy Bullets....
    pygame.draw.rect(screen, red, enemy_bullet_rect) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b2_x_cord, b2_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect2) # updates screen with drawn object
    pygame.draw.rect(screen, red, enemy_bullet_rect3) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b4_x_cord, b4_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect4) # updates screen with drawn object
    pygame.draw.rect(screen, red, enemy_bullet_rect5) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b6_x_cord, b6_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect6) # updates screen with drawn object
    pygame.draw.rect(screen, red, enemy_bullet_rect7) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b8_x_cord, b8_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect8) # updates screen with drawn object
    pygame.draw.rect(screen, red, enemy_bullet_rect9) # updates screen with drawn object
-   pygame.draw.rect(screen, red, (b10_x_cord, b10_y_cord, 20, 10)) # updates screen with drawn object
+   pygame.draw.rect(screen, red, enemy_bullet_rect10) # updates screen with drawn object
    pygame.display.update()
    #....
 """ ....... """
+# Variables for enemy bulelt list
+bullet_1 = pygame.draw.rect(screen, red, enemy_bullet_rect)
+bullet_2 = pygame.draw.rect(screen, red, enemy_bullet_rect2)
+bullet_3 = pygame.draw.rect(screen, red, enemy_bullet_rect3)
+bullet_4 = pygame.draw.rect(screen, red, enemy_bullet_rect4)
+bullet_5 = pygame.draw.rect(screen, red, enemy_bullet_rect5)
+bullet_6 = pygame.draw.rect(screen, red, enemy_bullet_rect6)
+bullet_7 = pygame.draw.rect(screen, red, enemy_bullet_rect7)
+bullet_8 = pygame.draw.rect(screen, red, enemy_bullet_rect8)
+bullet_9 = pygame.draw.rect(screen, red, enemy_bullet_rect9)
+bullet_10 = pygame.draw.rect(screen, red, enemy_bullet_rect10)
 
 
-
+# Enemy bullet list
+bullet_list = [bullet_1, bullet_2, bullet_3,
+               bullet_4, bullet_5, bullet_6,
+               bullet_7, bullet_8, bullet_9,
+               bullet_10]
 
 """ Collision System: Set of code that identifies two objects. If those two objects should
 come in contact with one another, than both objects will kill(). But bullet object will respawn
@@ -330,39 +352,97 @@ pygame.mixer.music.play(0)
 
 
 
-# Timer class that comtrol how long an object lasts after a player action.
-# And timer loop for enemy bullets fire, As well as a game over display timer....
-class instantiate_timer():
+# Boundries class that exits game when player interacts with Boundries
+class boundries_gameover():
+    def __init__(self):
+        print("boundries class active")
+
+    def screen_boundries(self):
+        global lead_x
+        global lead_y
+        if lead_x > 800:
+            pygame.quit()
+            sys.exit()
+""" Class Variable """
+# Stores images class object_x variable
+object_boundries = boundries_gameover()
+#....
 
 
+# Contains Layer 2 movments
+def enemy_BL2_movement():
+    # global variables
+    # L2B variables....
+    global EL2B_ship1
+    global EL2B_ship1
+    global EL2B_ship1
+    global EL2B_ship1
+    global EL2B_ship1
+    global EL2B_ship1
+
+    # L1 odd variables....
+    global enemy_bullet_rect
+    global enemy_bullet_rect3
+    global enemy_bullet_rect5
+    global enemy_bullet_rect7
+    global enemy_bullet_rect9
+
+    # L1 even variables....
+    global enemy_bullet_rect2
+    global enemy_bullet_rect4
+    global enemy_bullet_rect6
+    global enemy_bullet_rect8
+    global enemy_bullet_rect10
+    
+    # Event type for time loop that will chgange L2B positions
+    EL2B_ship1.centery += 10
+    EL2B_ship2.centery += 10
+    EL2B_ship3.centery += 10
+    EL2B_ship4.centery += 10
+    EL2B_ship5.centery += 10
+    EL2B_ship6.centery += 10
+
+    # Odd enemy bullets change position 
+    enemy_bullet_rect.centery += 20
+    enemy_bullet_rect3.centery += 20
+    enemy_bullet_rect5.centery += 20
+    enemy_bullet_rect7.centery += 20
+    enemy_bullet_rect9.centery += 20
+
+    # Even enemy bullets change position
+    enemy_bullet_rect2.centery += 30
+    enemy_bullet_rect4.centery += 30
+    enemy_bullet_rect6.centery += 30
+    enemy_bullet_rect8.centery += 30
+    enemy_bullet_rect10.centery += 30
+    
+
+
+# Will kill objects that pass set screen barriers....
+class EL2B_EL1B_kill():
+    def bullets_spawn(self):
+        if enemy_bullet_rect > 800:
+            pygame.quit()
+            sys.exit()
+""" Class Variable """
+# Stores images class object_x variable
+object_bullets_kill = EL2B_EL1B_kill()
 #....
 
 
 
-# Kill class that will kill certain objects that are affected
-# by other objects....
-class kill_objects():
-
-
+# Enemy bullet list....
+alien_ship_obj = [background_alienShip, background_alienShipTwo, background_alienShipThree, background_alienShipFour,
+                  background_alienShipFive, background_alienShipSix, background_alienShipSeven, background_alienShipEight,
+                  background_alienShipNine]
 #....
-
-
-
-# Winner / gameover class will display winner if player defeats all enemy bots.
-# But if player loses, screen will display the following text "GAME OVER"....
-##################################################
-class game_over():
-
-
-
-#....
-
-#####################################
-# -------- MAIN PROGRAM LOOP --------
-#####################################
+        
+#################################
+######- MAIN PROGRAM LOOP -######
+#################################
+            
 key = pygame.key.get_pressed()
 running = True
-
 while running: #main game loop
  screen.fill((255, 255, 255))
  for event in pygame.event.get():
@@ -394,29 +474,26 @@ while running: #main game loop
               lead_y += 10 # Player object x coordinates
               y_cord += 10 # Player bullet y coordinates
 
-    # Odd enemy bullets change position as player obj changes position
-      enemy_bullet_rect.centery += 20
-      enemy_bullet_rect3.centery += 20
-      enemy_bullet_rect5.centery += 20
-      enemy_bullet_rect7.centery += 20
-      enemy_bullet_rect9.centery += 20
-
     # Control so player never leaves screen area
-
+      object_boundries.screen_boundries()
 ##################################################
 
 
 
 
-#####################################
-# -------- UPDATES --------
-#####################################
+#########################
+######-- UPDATES --######
+#########################
+
  all_sprites.draw(screen)
  screen.blit(background_image, (0,0)) # updates screen with background
  EnemyL2.EnemyLayer() # updates scrren with second enemy layer
- EnemyL3.EnemyLayer() # updates scrren with third enemy layer
+ EnemyL2.bullet_load() # updates scrren with second enemy layer
  objectP.playerLoad() # updates screen with player img
- object_x.sectionOne()
+ object_x.sectionOne() # updates screen with enemy ship image layer
  drawn_load()
+ # Loops enemy bullets changed positions
+ enemy_BL2_movement() # updates screen bullet layer y axis movement
  clock.tick(FPS)
  pygame.display.update()
+

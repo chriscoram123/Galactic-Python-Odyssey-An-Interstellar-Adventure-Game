@@ -155,7 +155,17 @@ class imagesEnemyShips():
 # Stores images class object_x variable
 object_x = imagesEnemyShips()
 """ ....... """
-
+# Enemy ship blit origin positions variables
+ship_one_position = screen.blit(background_alienShip, (0,0))
+ship_two_position = screen.blit(background_alienShipTwo, (80,0))
+ship_three_position = screen.blit(background_alienShipThree, (160,0))
+ship_four_position = screen.blit(background_alienShipFour, (240,0))
+ship_five_position = screen.blit(background_alienShipFive, (320,0))
+ship_six_position = screen.blit(background_alienShipSix, (400,0))
+ship_seven_position = screen.blit(background_alienShipSeven, (480,0))
+ship_eight_position = screen.blit(background_alienShipEight, (560,0))
+ship_nine_position = screen.blit(background_alienShipNine, (640,0))
+ship_ten_position = screen.blit(background_alienShipTen, (720,0))
 
 
 """ Player Projectile: Set of code that draws player projectile as well as
@@ -208,19 +218,82 @@ b9_y_cord = 83 # Layer 1 y coordinates
 b10_x_cord = 750 # Layer 1 x coordinates
 b10_y_cord = 83 # Layer 1 y coordinates
 #....
+
+# Bullet variables to assist with bullet wraps
+# Bullet L1 - 1
+bullet_img_x1 = b1_x_cord
+bullet_img_y1 = b1_y_cord
+bullet_width1 = 20
+bullet_height1 = 10
+origin_position_1 = ship_one_position
+# Bullet L1 - 2
+bullet_img_x2 = b2_x_cord
+bullet_img_y2 = b2_y_cord
+bullet_width2 = 20
+bullet_height2 = 10
+origin_position_2 = ship_two_position
+# Bullet L1 - 3
+bullet_img_x3 = b3_x_cord
+bullet_img_y3 = b3_y_cord
+bullet_width3 = 20
+bullet_height3 = 10
+origin_position_3 = ship_three_position
+# Bullet L1 - 4
+bullet_img_x4 = b4_x_cord
+bullet_img_y4 = b4_y_cord
+bullet_width4 = 20
+bullet_height4 = 10
+origin_position_4 = ship_four_position
+# Bullet L1 - 5
+bullet_img_x5 = b5_x_cord
+bullet_img_y5 = b5_y_cord
+bullet_width5 = 20
+bullet_height5 = 10
+origin_position_5 = ship_five_position
+# Bullet L1 - 6
+bullet_img_x6 = b6_x_cord
+bullet_img_y6 = b6_y_cord
+bullet_width6 = 20
+bullet_height6 = 10
+origin_position_6 = ship_six_position
+# Bullet L1 - 7
+bullet_img_x7 = b7_x_cord
+bullet_img_y7 = b7_y_cord
+bullet_width7 = 20
+bullet_height7 = 10
+origin_position_7 = ship_seven_position
+# Bullet L1 - 8
+bullet_img_x8 = b8_x_cord
+bullet_img_y8 = b8_y_cord
+bullet_width8 = 20
+bullet_height8 = 10
+origin_position_8 = ship_eight_position
+# Bullet L1 - 9
+bullet_img_x9 = b9_x_cord
+bullet_img_y9 = b9_y_cord
+bullet_width9 = 20
+bullet_height9 = 10
+origin_position_9 = ship_nine_position
+# Bullet L1 - 10
+bullet_img_x10 = b10_x_cord
+bullet_img_y10 = b10_y_cord
+bullet_width10 = 20
+bullet_height10 = 10
+origin_position_10 = ship_ten_position
+
 # Enemy odd bullet coordinates
-enemy_bullet_rect = pygame.Rect(b1_x_cord,b1_y_cord,20,10)
-enemy_bullet_rect3 = pygame.Rect(b3_x_cord,b3_y_cord,20,10)
-enemy_bullet_rect5 = pygame.Rect(b5_x_cord,b5_y_cord,20,10)
-enemy_bullet_rect7 = pygame.Rect(b7_x_cord,b7_y_cord,20,10)
-enemy_bullet_rect9 = pygame.Rect(b9_x_cord,b9_y_cord,20,10)
+enemy_bullet_rect = pygame.Rect(bullet_img_x1, bullet_img_y1, bullet_width1, bullet_height1)
+enemy_bullet_rect3 = pygame.Rect(bullet_img_x3, bullet_img_y3, bullet_width3, bullet_height3)
+enemy_bullet_rect5 = pygame.Rect(bullet_img_x5, bullet_img_y5, bullet_width5, bullet_height5)
+enemy_bullet_rect7 = pygame.Rect(bullet_img_x7, bullet_img_y7, bullet_width7, bullet_height7)
+enemy_bullet_rect9 = pygame.Rect(bullet_img_x9, bullet_img_y9, bullet_width9, bullet_height9)
 
 # Enemy even bullet coordinates
-enemy_bullet_rect2 = pygame.Rect(b2_x_cord,b2_y_cord,20,10)
-enemy_bullet_rect4 = pygame.Rect(b4_x_cord,b4_y_cord,20,10)
-enemy_bullet_rect6 = pygame.Rect(b6_x_cord,b6_y_cord,20,10)
-enemy_bullet_rect8 = pygame.Rect(b8_x_cord,b8_y_cord,20,10)
-enemy_bullet_rect10 = pygame.Rect(b10_x_cord,b10_y_cord,20,10)
+enemy_bullet_rect2 = pygame.Rect(bullet_img_x2, bullet_img_y2, bullet_width2, bullet_height2)
+enemy_bullet_rect4 = pygame.Rect(bullet_img_x4, bullet_img_y4, bullet_width4, bullet_height4)
+enemy_bullet_rect6 = pygame.Rect(bullet_img_x6, bullet_img_y6, bullet_width6, bullet_height6)
+enemy_bullet_rect8 = pygame.Rect(bullet_img_x8, bullet_img_y8, bullet_width8, bullet_height8)
+enemy_bullet_rect10 = pygame.Rect(bullet_img_x10, bullet_img_y10, bullet_width10, bullet_height10)
 
 def drawn_load():
    # Enemy Bullets....
@@ -237,24 +310,7 @@ def drawn_load():
    pygame.display.update()
    #....
 """ ....... """
-# Variables for enemy bulelt list
-bullet_1 = pygame.draw.rect(screen, red, enemy_bullet_rect)
-bullet_2 = pygame.draw.rect(screen, red, enemy_bullet_rect2)
-bullet_3 = pygame.draw.rect(screen, red, enemy_bullet_rect3)
-bullet_4 = pygame.draw.rect(screen, red, enemy_bullet_rect4)
-bullet_5 = pygame.draw.rect(screen, red, enemy_bullet_rect5)
-bullet_6 = pygame.draw.rect(screen, red, enemy_bullet_rect6)
-bullet_7 = pygame.draw.rect(screen, red, enemy_bullet_rect7)
-bullet_8 = pygame.draw.rect(screen, red, enemy_bullet_rect8)
-bullet_9 = pygame.draw.rect(screen, red, enemy_bullet_rect9)
-bullet_10 = pygame.draw.rect(screen, red, enemy_bullet_rect10)
 
-
-# Enemy bullet list
-bullet_list = [bullet_1, bullet_2, bullet_3,
-               bullet_4, bullet_5, bullet_6,
-               bullet_7, bullet_8, bullet_9,
-               bullet_10]
 
 """ Collision System: Set of code that identifies two objects. If those two objects should
 come in contact with one another, than both objects will kill(). But bullet object will respawn
@@ -267,6 +323,15 @@ def collide(self, sprite):
     pygame.sprite.collide_rect()
    # collide_rect(alien_sprite, bullet) == bool
 #....
+
+
+""" Player Class: Contains all actions that will update player img
+to pygame screen.
+"""
+player_img_x = lead_x
+player_img_y = lead_y
+player_width = 5
+player_height = 5
 # Player class
 class playerObject():
     def __init__(self):
@@ -274,7 +339,7 @@ class playerObject():
 
     def playerLoad(self):
         pygame.draw.rect(screen, Blue, (x_cord, y_cord, 20, 10)) # updates screen with drawn object
-        screen.blit(player, (lead_x, lead_y, 5, 5)) # updates screen with player object
+        screen.blit(player, (player_img_x, player_img_y, player_width, player_height)) # updates screen with player object
 
     # import class from projectile module
     def playerShoot(self):
@@ -369,7 +434,8 @@ object_boundries = boundries_gameover()
 #....
 
 
-# Contains Layer 2 movments
+
+# Contains Layer 2 bullet movments
 def enemy_BL2_movement():
     # global variables
     # L2B variables....
@@ -415,28 +481,8 @@ def enemy_BL2_movement():
     enemy_bullet_rect6.centery += 30
     enemy_bullet_rect8.centery += 30
     enemy_bullet_rect10.centery += 30
-    
+     
 
-
-# Will kill objects that pass set screen barriers....
-class EL2B_EL1B_kill():
-    def bullets_spawn(self):
-        if enemy_bullet_rect > 800:
-            pygame.quit()
-            sys.exit()
-""" Class Variable """
-# Stores images class object_x variable
-object_bullets_kill = EL2B_EL1B_kill()
-#....
-
-
-
-# Enemy bullet list....
-alien_ship_obj = [background_alienShip, background_alienShipTwo, background_alienShipThree, background_alienShipFour,
-                  background_alienShipFive, background_alienShipSix, background_alienShipSeven, background_alienShipEight,
-                  background_alienShipNine]
-#....
-        
 #################################
 ######- MAIN PROGRAM LOOP -######
 #################################
@@ -453,15 +499,15 @@ while running: #main game loop
   # If / else player movement
     if event.type == pygame.KEYDOWN: # updates screen with player position
       if event.key == pygame.K_LEFT:
-        lead_x -= 10 # Player object x coordinates
+        player_img_x -= 10 # Player object x coordinates
         x_cord -= 10 # Player bullet y coordinates
 
       if event.key == pygame.K_RIGHT:
-        lead_x += 10 # Player object x coordinates
+        player_img_x += 10 # Player object x coordinates
         x_cord += 10 # Player bullet y coordinates
 
       if event.key == pygame.K_UP:
-          lead_y -= 7 # Player object x coordinates
+          player_img_y -= 7 # Player object x coordinates
           y_cord -= 7 # Player bullet y coordinates
 
 
@@ -471,7 +517,7 @@ while running: #main game loop
               pygame.mixer.Sound.play(player_bullet_sound)
               y_cord -= 60
           if event.key == pygame.K_DOWN:
-              lead_y += 10 # Player object x coordinates
+              player_img_y += 10 # Player object x coordinates
               y_cord += 10 # Player bullet y coordinates
 
     # Control so player never leaves screen area
@@ -481,10 +527,10 @@ while running: #main game loop
 
 
 
-#########################
-######-- UPDATES --######
-#########################
-
+#######################
+#####-- UPDATES --#####
+#######################
+  
  all_sprites.draw(screen)
  screen.blit(background_image, (0,0)) # updates screen with background
  EnemyL2.EnemyLayer() # updates scrren with second enemy layer
@@ -492,7 +538,6 @@ while running: #main game loop
  objectP.playerLoad() # updates screen with player img
  object_x.sectionOne() # updates screen with enemy ship image layer
  drawn_load()
- # Loops enemy bullets changed positions
  enemy_BL2_movement() # updates screen bullet layer y axis movement
  clock.tick(FPS)
  pygame.display.update()

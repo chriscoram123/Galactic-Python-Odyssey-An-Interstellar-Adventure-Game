@@ -1,6 +1,6 @@
 ![text](https://user-images.githubusercontent.com/36040531/60665710-40407e80-9e33-11e9-82aa-22ff63cecb02.gif)
 
-<img width="799" alt="Screen Shot 2019-07-07 at 2 05 52 AM" src="https://user-images.githubusercontent.com/36040531/60765874-18d5f580-a06f-11e9-9ad9-d90e9f68c019.png">
+<img width="790" alt="Screen Shot 2019-07-30 at 12 29 57 PM" src="https://user-images.githubusercontent.com/36040531/62147608-d6968180-b2c5-11e9-8496-7b2aca176f6c.png">
 
 
 ![text2](https://user-images.githubusercontent.com/36040531/60665913-c1981100-9e33-11e9-9ef9-c3a2355d3527.gif)
